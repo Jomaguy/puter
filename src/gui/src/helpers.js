@@ -2224,6 +2224,10 @@ window.extractSubdomain = function(url) {
     return subdomain;
 }
 
+window.extractProtocol = function (url) {
+    var protocol = url.split('://')[0];
+    return protocol;
+}
 window.sleep = function(ms){
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -2547,8 +2551,8 @@ window.change_clock_visible = (clock_visible) => {
     
     newValue === 'auto' && window.is_fullscreen() ? $('#clock').show() : $('#clock').hide();
 
-    newValue === 'show' && $('#clock').show();
-    newValue === 'hide' && $('#clock').hide();
+    newValue === 'show' && $('#clock').show() && $('#toolbar-first').css('margin-right', '');
+    newValue === 'hide' && $('#clock').hide() &&  $('#toolbar-first').css('margin-right', 'auto');
 
     if(clock_visible) {
         // save clock_visible to user preferences

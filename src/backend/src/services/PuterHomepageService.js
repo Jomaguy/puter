@@ -21,6 +21,8 @@ const { PathBuilder } = require("../util/pathutil");
 const BaseService = require("./BaseService");
 const {is_valid_url} = require('../helpers');
 const { Context } = require("../util/context");
+const { Endpoint } = require("../util/expressutil");
+
 
 /**
  * PuterHomepageService serves the initial HTML page that loads the Puter GUI
@@ -64,6 +66,20 @@ class PuterHomepageService extends BaseService {
     
     set_gui_param (key, val) {
         this.gui_params[key] = val;
+    }
+
+
+    async ['__on_install.routes'] (_, { app }) {
+        Endpoint({
+            route: '/whoarewe',
+            methods: ['GET'],
+            handler: async (req, res) => {
+                res.json({
+                    disable_user_signup: this.global_config.disable_user_signup,
+                    disable_temp_users: this.global_config.disable_temp_users,
+                });
+            }
+        }).attach(app);
     }
 
 
